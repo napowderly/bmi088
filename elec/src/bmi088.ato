@@ -43,14 +43,7 @@ component _BMI088:
     i2c.sda ~ SDA_SDI
     i2c.gnd ~ GNDA
 
-    # TODO: Interestingly, they gyro and accel are separate SPI interfaces
-    # we dont have an awesome way to support this other than having two SPI interfaces
-    spi = new SPI
-    spi.sck ~ SCL_SCK
-    spi.mosi ~ SDA_SDI
-    spi.miso ~ SDO1
-    spi.miso ~ SDO2
-    # spi.cs ~
+
 
 module BMI088:
     ic = new _BMI088
@@ -60,13 +53,11 @@ module BMI088:
 
     # Select the I2C or SPI interface (I2C = 1, SPI = 0)
     ic.PS ~ power.vcc
+    ic.CSB1 ~ power.vcc
 
     i2c = new I2C
     i2c ~ ic.i2c
 
-    # Not currently supported, see above
-    # spi = new SPI
-    # spi ~ ic.spi
 
     # Interrupts
     interrupt_1 = new Pair
